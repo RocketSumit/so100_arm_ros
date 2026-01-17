@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Node.js dependencies
+node_modules/
+
+# C extensions
+*.so
+
+# pyenv
+.python-version
+
+# Environments
+.venv
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ROS
+build/
+install/
+log/

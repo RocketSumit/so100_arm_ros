@@ -1,36 +1,29 @@
 #!/bin/bash
 set -e
 
-# Detect shell type and source appropriate setup file
-if [ -n "$ZSH_VERSION" ]; then
-    # Running in zsh
-    source /opt/ros/humble/setup.zsh
-    # Source workspace if it exists
-    if [ -f "/home/$USERNAME/ros2_ws/install/setup.zsh" ]; then
-        source "/home/$USERNAME/ros2_ws/install/setup.zsh"
-    fi
-else
-    # Running in bash
-    source /opt/ros/humble/setup.bash
-    # Source workspace if it exists
-    if [ -f "/home/$USERNAME/ros2_ws/install/setup.bash" ]; then
-        source "/home/$USERNAME/ros2_ws/install/setup.bash"
-    fi
+# Bash or other shells
+if [ -f "/opt/ros/$ROS_DISTRO/setup.bash" ]; then
+    source /opt/ros/$ROS_DISTRO/setup.bash
+fi
+if [ -f "$HOME/ros2_ws/install/setup.bash" ]; then
+    source "$HOME/ros2_ws/install/setup.bash"
 fi
 
-# Initialize rosdep if not done already
+# Initialize rosdep if needed
 if [ ! -f "/etc/ros/rosdep/sources.list.d/20-default.list" ]; then
+    echo "Initializing rosdep..."
     sudo rosdep init
 fi
-rosdep update
+rosdep update || echo "rosdep update failed or already up-to-date."
 
-# Setup ROS domain ID if provided
+# Set ROS_DOMAIN_ID if provided
 if [ -n "$ROS_DOMAIN_ID" ]; then
     export ROS_DOMAIN_ID=$ROS_DOMAIN_ID
 fi
 
-# Print ROS environment info
-printenv | grep -i "ros"
+# Print ROS environment summary
+echo "ROS Environment:"
+printenv | grep -i "ros" || true
 
-# Execute the command passed to the container
+# Execute the provided command (e.g. zsh, bash, etc.)
 exec "$@"

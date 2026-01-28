@@ -1,0 +1,9 @@
+so100_hardware_interface:
+  ros__parameters:
+    use_serial: true
+    serial_port: "/dev/ttyACM0"
+    baud_rate: 1000000
+    # Calibration zero offsets (one per joint, default 2048 = center for 0–4095 range)
+    calibration_offsets: [2048, 2048, 2048, 2048, 2048, 2048]
+    # Direction factors (1 or -1 per joint)
+    direction_factors: [1, 1, 1, 1, -1, 1]

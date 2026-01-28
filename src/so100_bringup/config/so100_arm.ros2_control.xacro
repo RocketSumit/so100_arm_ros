@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="so100_ros2_control" params="name initial_positions_file use_real_hardware ">
+        <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}"/>
+
+        <ros2_control name="${name}" type="system">
+            <hardware>
+                <xacro:if value="${use_real_hardware}">
+                    <plugin>so100_hardware_interface/SO100ArmInterface</plugin>
+                    <param name="use_serial">true</param>
+                    <param name="serial_port">/dev/ttyACM0</param>
+                    <param name="serial_baudrate">1000000</param>
+                </xacro:if>
+                <xacro:unless value="${use_real_hardware}">
+                    <plugin>mock_components/GenericSystem</plugin>
+                </xacro:unless>
+            </hardware>
+            <joint name="shoulder_pan">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['shoulder_pan']}</param>
+                </state_interface>
+                <param name="id">1</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+            <joint name="shoulder_lift">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['shoulder_lift']}</param>
+                </state_interface>
+                <param name="id">2</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+            <joint name="elbow_flex">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['elbow_flex']}</param>
+                </state_interface>
+                <param name="id">3</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+            <joint name="wrist_flex">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['wrist_flex']}</param>
+                </state_interface>
+                <param name="id">4</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+            <joint name="wrist_roll">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['wrist_roll']}</param>
+                </state_interface>
+                <param name="id">5</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+            <joint name="gripper">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                    <param name="initial_value">${initial_positions['gripper']}</param>
+                </state_interface>
+                <param name="id">6</param>
+                <!-- <state_interface name="velocity"/> -->
+            </joint>
+
+        </ros2_control>
+    </xacro:macro>
+</robot>

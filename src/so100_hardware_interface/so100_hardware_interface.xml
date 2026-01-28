@@ -1,0 +1,9 @@
+<library path="so100_hardware_interface">
+  <class name="so100_hardware_interface/SO100ArmInterface"
+         type="so100_hardware_interface::SO100ArmInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      SO100 Arm ros2_control hardware interface.
+    </description>
+  </class>
+</library>

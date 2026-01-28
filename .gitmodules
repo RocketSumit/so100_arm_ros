@@ -1,0 +1,3 @@
+[submodule "src/ftservo_driver"]
+	path = src/ftservo_driver
+	url = https://github.com/RocketSumit/FTServo_Linux.git
